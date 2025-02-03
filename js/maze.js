@@ -92,13 +92,27 @@ document.addEventListener('DOMContentLoaded', function () {
         [450, 338, 450, 354], [450, 370, 450, 450], [466, 50, 466, 66], [466, 130, 466, 146], [466, 178, 466, 194],
         [466, 210, 466, 242], [466, 258, 466, 306], [466, 418, 466, 466], [482, 2, 482, 482],
     ];
+    const solution = [
+        [138, 2], [138, 58], [154, 58], [154, 74], [170, 74],
+        [170, 106], [234, 106], [234, 122], [250, 122], [250, 154],
+        [314, 154], [314, 186], [346, 186], [346, 202], [330, 202],
+        [330, 218], [346, 218], [346, 266], [378, 266], [378, 250],
+        [394, 250], [394, 282], [362, 282], [362, 298], [346, 298],
+        [346, 346], [330, 346], [330, 362], [362, 362], [362, 394],
+        [378, 394], [378, 378], [442, 378], [442, 458], [458, 458],
+        [458, 410], [474, 410], [474, 474], [426, 474], [426, 410],
+        [378, 410], [378, 442], [346, 442], [346, 458], [330, 458],
+        [330, 474], [314, 474], [314, 458], [298, 458], [298, 474], 
+        [266, 474], [266, 458], [250, 458], [250, 482],
+    ];
 
 
     const canvas = document.querySelector(".maze");
     const ctx = canvas.getContext("2d");
 
+    // MAZE - DRAW
     ctx.strokeStyle = "black";
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
 	ctx.lineCap = "round";
     ctx.beginPath();
 
@@ -108,6 +122,20 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     ctx.stroke();
     ctx.closePath();
+
+
+    // SOLUTION - DRAW
+    ctx.strokeStyle = "green";
+    ctx.lineWidth = 4;
+	ctx.lineCap = "square";
+    ctx.beginPath();
+
+    for (let i = 0; i < solution.length; i++) {
+        ctx.lineTo(solution[i][0], solution[i][1]);
+    }
+    ctx.stroke();
+    ctx.closePath();
+
 });
 
 
