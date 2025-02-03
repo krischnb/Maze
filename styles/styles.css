@@ -1,0 +1,23 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+html, body{
+    height:100%;
+    width:100%;
+}
+.glavni{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    width:100%;
+}
+.canvasCont{
+    height:700px;
+    width:700px;
+}
+canvas{
+    width:100%;
+}
