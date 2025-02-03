@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maze</title>
     <link rel="stylesheet" href="styles/styles.css">
-    <script src="js/maze.js"></script>
 </head>
 
 <body>
@@ -14,7 +13,13 @@
         <div class="canvasCont">
             <canvas class="maze" height="484px" width="484px"></canvas>
         </div>
+        <div class="btnCont">
+            <div class="solveBtn" onclick="solve()">Solve</div>
+            <div class="clearBtn" onclick="reset()">Clear</div>
+        </div>
     </div>
+
+    <script src="js/maze.js"></script>
 </body>
 
 </html>

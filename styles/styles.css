@@ -13,11 +13,32 @@ html, body{
     align-items: center;
     height:100%;
     width:100%;
+    flex-direction: column;
+    gap: 20px;
 }
 .canvasCont{
-    height:700px;
-    width:700px;
+    height:600px;
+    width:600px;
 }
 canvas{
     width:100%;
+}
+.btnCont{
+    display:flex;
+    gap: 20px;
+}
+.solveBtn, .clearBtn {
+    padding: 10px 50px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 25px;
+    font-family: sans-serif;
+    user-select: none;
+}
+
+.solveBtn:hover, .clearBtn:hover {
+    background-color: rgb(12, 77, 12);
 }

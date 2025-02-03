@@ -1,6 +1,10 @@
+let solution;
+let labirint;
+let canvas;
+let ctx;
 document.addEventListener('DOMContentLoaded', function () {
 
-    const labirint = [
+    labirint = [
         [2, 2, 130, 2], [146, 2, 226, 2], [226, 2, 482, 2], [18, 18, 34, 18], [82, 18, 114, 18],
         [146, 18, 194, 18], [258, 18, 306, 18], [338, 18, 354, 18], [386, 18, 418, 18], [450, 18, 466, 18],
         [34, 34, 82, 34], [114, 34, 130, 34], [162, 34, 178, 34], [194, 34, 226, 34], [258, 34, 322, 34],
@@ -92,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
         [450, 338, 450, 354], [450, 370, 450, 450], [466, 50, 466, 66], [466, 130, 466, 146], [466, 178, 466, 194],
         [466, 210, 466, 242], [466, 258, 466, 306], [466, 418, 466, 466], [482, 2, 482, 482],
     ];
-    const solution = [
+    solution = [
         [138, 2], [138, 58], [154, 58], [154, 74], [170, 74],
         [170, 106], [234, 106], [234, 122], [250, 122], [250, 154],
         [314, 154], [314, 186], [346, 186], [346, 202], [330, 202],
@@ -102,18 +106,20 @@ document.addEventListener('DOMContentLoaded', function () {
         [378, 394], [378, 378], [442, 378], [442, 458], [458, 458],
         [458, 410], [474, 410], [474, 474], [426, 474], [426, 410],
         [378, 410], [378, 442], [346, 442], [346, 458], [330, 458],
-        [330, 474], [314, 474], [314, 458], [298, 458], [298, 474], 
+        [330, 474], [314, 474], [314, 458], [298, 458], [298, 474],
         [266, 474], [266, 458], [250, 458], [250, 482],
     ];
 
+    canvas = document.querySelector(".maze");
+    ctx = canvas.getContext("2d");
+    drawMaze();
+});
 
-    const canvas = document.querySelector(".maze");
-    const ctx = canvas.getContext("2d");
-
-    // MAZE - DRAW
+// MAZE - DRAW
+function drawMaze() {
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
-	ctx.lineCap = "round";
+    ctx.lineCap = "round";
     ctx.beginPath();
 
     for (let i = 0; i < labirint.length; i++) {
@@ -122,12 +128,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     ctx.stroke();
     ctx.closePath();
+}
 
-
-    // SOLUTION - DRAW
+// SOLUTION - DRAW
+function solve() {
     ctx.strokeStyle = "green";
     ctx.lineWidth = 4;
-	ctx.lineCap = "square";
+    ctx.lineCap = "square";
     ctx.beginPath();
 
     for (let i = 0; i < solution.length; i++) {
@@ -135,7 +142,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     ctx.stroke();
     ctx.closePath();
+}
 
-});
+// CLEAR SOLUTION
+function reset() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMaze();
+}
 
 
