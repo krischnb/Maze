@@ -16,13 +16,11 @@ html, body{
     flex-direction: column;
     gap: 20px;
 }
-.canvasCont{
-    height:600px;
-    width:600px;
-}
 canvas{
     width:100%;
+    background-image: url(../pics/maze.svg);
 }
+
 .btnCont{
     display:flex;
     gap: 20px;
