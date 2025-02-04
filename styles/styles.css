@@ -17,10 +17,8 @@ html, body{
     gap: 20px;
 }
 canvas{
-    width:100%;
-    background-image: url(../pics/maze.svg);
+    width:700px;
 }
-
 .btnCont{
     display:flex;
     gap: 20px;
