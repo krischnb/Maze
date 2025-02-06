@@ -4,23 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maze</title>
+    <title>Maze Generator</title>
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 
-<body>
-    <img src="pics/maze.svg" alt="Maze" id="mazeImg" style="display:none;">
+<body onload="genMaze()">
     <div class="glavni">
-        <div class="canvasCont">
-            <canvas class="maze" height="484px" width="484px"></canvas>
+        <canvas id="mazeCanvas" width="600" height="600"></canvas>
+        <div class="buttonCont">
+            <button id="generateMaze" onclick="genMaze()">Generate</button>
+            <button id="solveMaze">Solve</button>
+            <button id="clearSolve" onclick="clearPath()">Clear</button>
+            <select id="difficulty">
+                <option class="noOption" disabled selected>Grid size</option>
+                <option value="60">10x10</option>
+                <option value="40">15x15</option>
+                <option value="30">20x20</option>
+                <option value="20">30x30</option>
+            </select>
+            </button>
         </div>
-        <div class="btnCont">
-            <div class="solveBtn" onclick="solve()">Solve</div>
-            <div class="clearBtn" onclick="reset()">Clear</div>
-        </div>
-    </div>
 
-    <script src="js/maze.js"></script>
+        <img src="assets/bg2.png" class="backImg" alt="Bg">
+        <script src="js/mazeGen.js"></script>
+        <script src="js/mazeSolve.js"></script>
+        <script src="js/game.js"></script>
 </body>
 
 </html>

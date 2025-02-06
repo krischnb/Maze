@@ -8,33 +8,54 @@ html, body{
     width:100%;
 }
 .glavni{
+    height:100%;
+    width:100%;
     display:flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    z-index: 2;
+}
+.backImg{
+    position: absolute;
     height:100%;
     width:100%;
-    flex-direction: column;
-    gap: 20px;
+    opacity: 0.5;
+    z-index: -1000;
 }
-canvas{
+canvas {
+    border: 1px solid black;
     width:700px;
+    background-color: rgba(255, 255, 255, 0.8);
 }
-.btnCont{
+.buttonCont{
     display:flex;
     gap: 20px;
+    margin-top: 10px;
 }
-.solveBtn, .clearBtn {
-    padding: 10px 50px;
+.buttonCont button, #difficulty{
+    width:150px;
+    height:45px;
+    font-size: 20px;
     background-color: green;
     color: white;
-    border: none;
+    border:none;
     border-radius: 10px;
-    cursor: pointer;
-    font-size: 25px;
-    font-family: sans-serif;
-    user-select: none;
 }
-
-.solveBtn:hover, .clearBtn:hover {
-    background-color: rgb(12, 77, 12);
+#difficulty{
+    text-align: center;
+}
+.noOption{
+   display:none;
+}
+#difficulty option{
+    background-color: rgb(110, 110, 110);
+    color: rgb(254, 255, 255);
+}
+#difficulty option:hover{
+    background-color: rgb(160, 148, 148) !important;
+}
+.buttonCont button:hover, #difficulty:hover{
+    cursor: pointer;
+    background-color: rgb(10, 85, 14);
 }
