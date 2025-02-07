@@ -14,13 +14,20 @@
         <div class="buttonCont">
             <button id="generateMaze" onclick="genMaze()">Generate</button>
             <button id="solveMaze">Solve</button>
-            <button id="clearSolve" onclick="clearPath()">Clear</button>
+            <select id="speedSolve">
+                <option class="noOption" disabled selected>Speed</option>
+                <option value="1" id="speed1">Slow</option>
+                <option value="5" id="speed2">Medium</option>
+                <option value="15" id="speed3">Fast</option>
+                <option value="9999" id="speed4">Instant</option>
+            </select>
+            <!-- <button id="clearSolve" onclick="clearPath()">Clear</button> -->
             <select id="difficulty">
                 <option class="noOption" disabled selected>Grid size</option>
-                <option value="60">10x10</option>
-                <option value="40">15x15</option>
-                <option value="30">20x20</option>
-                <option value="20">30x30</option>
+                <option value="60" id="size1">10x10</option>
+                <option value="40" id="size2">15x15</option>
+                <option value="30" id="size3">20x20</option>
+                <option value="20" id="size4">30x30</option>
             </select>
             </button>
         </div>
@@ -28,7 +35,6 @@
         <img src="assets/bg2.png" class="backImg" alt="Bg">
         <script src="js/mazeGen.js"></script>
         <script src="js/mazeSolve.js"></script>
-        <script src="js/game.js"></script>
 </body>
 
 </html>

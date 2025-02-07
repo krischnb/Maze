@@ -1,6 +1,10 @@
-let path = []; 
+let path = [];
 let isAnimating = false;
-let animationTimeout; 
+let animationTimeout;
+let animationFrameId;
+let solveBtn = document.getElementById("solveMaze");
+let speedPick = document.getElementById("speedSolve");
+let speed = 1; // default speed
 
 // zacetna tocka (0,0) - koncna tocka (cols-1, rows-1)
 // Depth First Search Algoritem (DFS) - obiskuje vse mozne poti od zacetne tocke do koncne, ko pride do dead enda, backtracka in gre naprej po unvisited poti
@@ -28,76 +32,111 @@ function solveMaze(x, y, visited) {
     return false;
 }
 
-function stopAnimation() {
-    isAnimating = false; 
-    clearTimeout(animationTimeout);
-}
-
 function drawSolution() {
-    let index = 0; // trenutna tocka v path solution tabeli
-    isAnimating = true; 
+    let currentPixel = 0; // trenuten pixel v tabeli pixels
+    let pixels = []; // tabela v katero damo 
+    let stopped = false;
+    isAnimating = true;
 
     ctx.beginPath();
-    ctx.strokeStyle = 'red';
+    ctx.strokeStyle = 'green';
     ctx.lineWidth = 4;
 
-    ctx.moveTo(path[0].x * size + size / 2, path[0].y * size + size / 2); // prikaze zacetno tocko (* size + size / 2  se uporabi zato da se nahajanje zacne v sredini celice)
+    // se premakne na zacetno tocko (* size + size / 2  se uporabi zato da se nahajanje zacne v sredini celice)
+    ctx.moveTo(path[0].x * size + size / 2, path[0].y * size + size / 2);
+
+    // iteracija skozi celotno pot (solution path), vzame 2 tocki (ena crta) iz trenutne celice (en korak) in jo spremeni v pixle
+    for (let i = 1; i < path.length; i++) {  
+        const x1 = path[i - 1].x, y1 = path[i - 1].y;
+        const x2 = path[i].x, y2 = path[i].y;
+                                                // X 
+        pixels.push(...getLinePixels(x1 * size + size / 2, y1 * size + size / 2, 
+                                                // Y
+                                     x2 * size + size / 2, y2 * size + size / 2));
+    }
 
     function animate() {
-        if (!isAnimating || index >= path.length) {
+        if (currentPixel < pixels.length && !stopped) { // ce se risanje se ni koncalo
+            for (let i = 0; i < speed && currentPixel < pixels.length; i++) {  // kontrolira koliko pixlov se narise na en korak 
+            // vecji kot je speed vec pixlov naenkrat se narise = animacija bo hitrejsa
+                const [x, y] = pixels[currentPixel];  // vzame pozicijo naslednjega pixla
+                ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
+                currentPixel++; // gre do naslednjega pixla
+            }
+
             ctx.stroke(); 
-            isAnimating = false; 
-            return; // ustavi animacijo, ko se konca risati
+            animationFrameId = requestAnimationFrame(animate); // built in funkcija, 60 FPS default, narise se (speed * 60 pixlov) na sekundo
+        } else {
+            ctx.closePath();
+            isAnimating = false;
         }
-
-        let p = path[index];
-        ctx.lineTo(p.x * size + size / 2, p.y * size + size / 2); // dejansko risanje, ohranja sredino celice
-        ctx.stroke();
-
-        index++; // gre na nasleden korak v tabeli solution path
-
-        animationTimeout = setTimeout(animate, 0); // 25ms delay, animacija
     }
 
-    animate(); // Start animation
+    animate();
 }
 
-// function drawSolution() {
-//     let index = 0;
-//     isAnimating = true; 
+function stopAnimation() {
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId); // prekine animation frame
+    }
+    stopped = true;
+    isAnimating = false;
+    currentPixel = 0; // reset index na 0
+    pixels = [];
+}
 
-//     ctx.fillStyle = 'red';  
-//     const pixelSize = 20;   
-
-//     function animate() {
-//         if (!isAnimating || index >= path.length) {
-//             isAnimating = false; 
-//             return; 
-//         }
-//         moveCharacterAnimation();
-//         let p = path[index];
-//         ctx.fillRect(p.x * size + size / 2 - pixelSize / 2, p.y * size + size / 2 - pixelSize / 2, pixelSize, pixelSize);
-//         index++;                                                                                         
-//         animationTimeout = setTimeout(animate, 100); 
-//     }
-//     animate();
-// }
-
-
-function moveCharacterAnimation() {
+function clearPath() {
+    stopAnimation();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMaze();
 }
-function clearPath(){
-    stopAnimation(); 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawMaze();
-}
-document.getElementById('solveMaze').addEventListener('click', () => {
-    if (!isAnimating) {
+
+let risi = true;
+solveBtn.addEventListener('click', () => {
+    if(risi){
+    if (isAnimating === false) {
         let visited = Array.from({ length: rows }, () => Array(cols).fill(false)); // ustvari 2d tabelo, ki preverja ce je celica bila obiskana
-        path = [];  
-        solveMaze(0, 0, visited); 
-        drawSolution(); 
+        path = [];
+        solveMaze(0, 0, visited);
+        drawSolution();
+        solveBtn.textContent = "Clear";
+        risi = false;
+    }
+    }
+    else{
+        clearPath();
+        solveBtn.textContent = "Solve";
+        risi = true;
     }
 });
+
+speedPick.addEventListener("change", function () {
+    speed = parseInt(speedPick.value, 10);
+});
+
+function getLinePixels(x1, y1, x2, y2) {
+    const pixels = [];
+    const dx = Math.abs(x2 - x1);
+    const dy = Math.abs(y2 - y1);
+    const sx = x1 < x2 ? 1 : -1;
+    const sy = y1 < y2 ? 1 : -1;
+    let err = dx - dy;
+
+    while (true) {
+        pixels.push([x1, y1]);
+
+        if (x1 === x2 && y1 === y2) break;
+
+        const e2 = err * 2;
+        if (e2 > -dy) {
+            err -= dy;
+            x1 += sx;
+        }
+        if (e2 < dx) {
+            err += dx;
+            y1 += sy;
+        }
+    }
+
+    return pixels;
+}

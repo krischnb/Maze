@@ -105,6 +105,8 @@ function genMaze(){
     createGrid();
     generateMaze(cols - 1, rows - 1); // rekurzija se zacne v spodnjem desnem kotu, zato da je labirint tezji, ker starting tocka je na nasportni strani
     drawMaze();
+    solveBtn.textContent = "Solve";
+    risi = true;
 }
 
 // spreminjanje tezavnosti = velikosti labirinta
@@ -114,5 +116,4 @@ pick.addEventListener("change", function () {
     cols = Math.floor(canvas.width / size);
     rows = Math.floor(canvas.height / size);
     genMaze();
-
 });
