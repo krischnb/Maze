@@ -2,9 +2,10 @@ let path = [];
 let isAnimating = false;
 let animationTimeout;
 let animationFrameId;
+let risi = true;
 let solveBtn = document.getElementById("solveMaze");
 let speedPick = document.getElementById("speedSolve");
-let speed = 1; // default speed
+let speed = 5; // default speed
 
 // zacetna tocka (0,0) - koncna tocka (cols-1, rows-1)
 // Depth First Search Algoritem (DFS) - obiskuje vse mozne poti od zacetne tocke do koncne, ko pride do dead enda, backtracka in gre naprej po unvisited poti
@@ -46,25 +47,25 @@ function drawSolution() {
     ctx.moveTo(path[0].x * size + size / 2, path[0].y * size + size / 2);
 
     // iteracija skozi celotno pot (solution path), vzame 2 tocki (ena crta) iz trenutne celice (en korak) in jo spremeni v pixle
-    for (let i = 1; i < path.length; i++) {  
+    for (let i = 1; i < path.length; i++) {
         const x1 = path[i - 1].x, y1 = path[i - 1].y;
         const x2 = path[i].x, y2 = path[i].y;
-                                                // X 
-        pixels.push(...getLinePixels(x1 * size + size / 2, y1 * size + size / 2, 
-                                                // Y
-                                     x2 * size + size / 2, y2 * size + size / 2));
+        // X 
+        pixels.push(...getLinePixels(x1 * size + size / 2, y1 * size + size / 2,
+            // Y
+            x2 * size + size / 2, y2 * size + size / 2));
     }
 
     function animate() {
         if (currentPixel < pixels.length && !stopped) { // ce se risanje se ni koncalo
-            for (let i = 0; i < speed && currentPixel < pixels.length; i++) {  // kontrolira koliko pixlov se narise na en korak 
-            // vecji kot je speed vec pixlov naenkrat se narise = animacija bo hitrejsa
+            for (let i = 0; i < speed && currentPixel < pixels.length; i++) {  // kontrolira koliko pixlov se narise na en korak - frame
+                // vecji kot je speed vec pixlov naenkrat se narise = animacija bo hitrejsa
                 const [x, y] = pixels[currentPixel];  // vzame pozicijo naslednjega pixla
                 ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
                 currentPixel++; // gre do naslednjega pixla
             }
 
-            ctx.stroke(); 
+            ctx.stroke();
             animationFrameId = requestAnimationFrame(animate); // built in funkcija, 60 FPS default, narise se (speed * 60 pixlov) na sekundo
         } else {
             ctx.closePath();
@@ -91,19 +92,19 @@ function clearPath() {
     drawMaze();
 }
 
-let risi = true;
+// RIŠI BRIŠI
 solveBtn.addEventListener('click', () => {
-    if(risi){
-    if (isAnimating === false) {
-        let visited = Array.from({ length: rows }, () => Array(cols).fill(false)); // ustvari 2d tabelo, ki preverja ce je celica bila obiskana
-        path = [];
-        solveMaze(0, 0, visited);
-        drawSolution();
-        solveBtn.textContent = "Clear";
-        risi = false;
+    if (risi) { // ce je boolean risi true bo narisalo pot, v primeru da ni, jo izbriše
+        if (isAnimating === false) {
+            let visited = Array.from({ length: rows }, () => Array(cols).fill(false)); // ustvari 2d tabelo, ki preverja ce je celica bila obiskana
+            path = [];
+            solveMaze(0, 0, visited);
+            drawSolution();
+            solveBtn.textContent = "Clear";
+            risi = false;
+        }
     }
-    }
-    else{
+    else {
         clearPath();
         solveBtn.textContent = "Solve";
         risi = true;

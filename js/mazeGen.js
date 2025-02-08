@@ -1,4 +1,3 @@
-
 let size = 40; // default size
 // cell size v pixlah: size 20 = 30x30 grid, size 30 = 20x20 grid, size 40 = 15x15 grid, size 60 = 10x10 grid
 const canvas = document.getElementById('mazeCanvas');
@@ -106,7 +105,7 @@ function genMaze(){
     generateMaze(cols - 1, rows - 1); // rekurzija se zacne v spodnjem desnem kotu, zato da je labirint tezji, ker starting tocka je na nasportni strani
     drawMaze();
     solveBtn.textContent = "Solve";
-    risi = true;
+    risi = true; // risi brisi button postane solve v vsakem primeru
 }
 
 // spreminjanje tezavnosti = velikosti labirinta
