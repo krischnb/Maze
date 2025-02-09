@@ -6,7 +6,6 @@ let risi = true;
 let solveBtn = document.getElementById("solveMaze");
 let speedPick = document.getElementById("speedSolve");
 let speed = 5; // default speed
-
 // zacetna tocka (0,0) - koncna tocka (cols-1, rows-1)
 // Depth First Search Algoritem (DFS) - obiskuje vse mozne poti od zacetne tocke do koncne, ko pride do dead enda, backtracka in gre naprej po unvisited poti
 
@@ -63,6 +62,7 @@ function drawSolution() {
                 const [x, y] = pixels[currentPixel];  // vzame pozicijo naslednjega pixla
                 ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
                 currentPixel++; // gre do naslednjega pixla
+                ctx.drawImage(portal, speed * size + size/2, speed * size + size/2 * size, size, size);
             }
 
             ctx.stroke();
@@ -90,6 +90,7 @@ function clearPath() {
     stopAnimation();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMaze();
+    ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
 }
 
 // RIŠI BRIŠI
@@ -114,6 +115,7 @@ solveBtn.addEventListener('click', () => {
 speedPick.addEventListener("change", function () {
     speed = parseInt(speedPick.value, 10);
 });
+
 
 function getLinePixels(x1, y1, x2, y2) {
     const pixels = [];

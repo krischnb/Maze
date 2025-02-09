@@ -7,7 +7,8 @@ let rows = Math.floor(canvas.height / size); // stevilo vrstic
 var pick = document.getElementById("difficulty");
 let charX = 0;
 let chary = 0;
-let grid = []; // struktura mreze, ki se potem ustvari v labirint
+let grid = []; // struktura mreze, ki se potem ustvari v labirint    
+const portal = document.getElementById("portal");
 /**
  * ustvari grid - mrežo: stevilo celic = vrstice*stolpci, vsaka celica ima vse 4 zide
  */
@@ -60,7 +61,7 @@ function generateMaze(x, y) {
 
 function drawMaze() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.beginPath(); // zacetek risanja labirinta
+    ctx.beginPath();
     ctx.lineWidth = 2;
 
     // iteracija skozi vsako celico v labirintu
@@ -99,13 +100,18 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
-function genMaze(){
+function genMaze() {
     stopAnimation();
     createGrid();
     generateMaze(cols - 1, rows - 1); // rekurzija se zacne v spodnjem desnem kotu, zato da je labirint tezji, ker starting tocka je na nasportni strani
     drawMaze();
     solveBtn.textContent = "Solve";
     risi = true; // risi brisi button postane solve v vsakem primeru
+
+    ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
+    // (cols - 1), (rows - 1) --- array pozicija spodnjega desnega kota
+    // (cols - 1) * size, (rows - 1) * size --- pixel pozicija spodnjega desnega kota
+
 }
 
 // spreminjanje tezavnosti = velikosti labirinta

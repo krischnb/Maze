@@ -11,6 +11,7 @@
 <body onload="genMaze()">
     <div class="glavni">
         <canvas id="mazeCanvas" width="600" height="600"></canvas>
+        <img src="assets/portal.gif" id="portal" style="display:none">
         <div class="buttonCont">
             <button id="generateMaze" onclick="genMaze()">Generate</button>
             <button id="solveMaze">Solve</button>
@@ -35,6 +36,7 @@
         <img src="assets/bg2.png" class="backImg" alt="Bg">
         <script src="js/mazeGen.js"></script>
         <script src="js/mazeSolve.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gifler"></script>
 </body>
 
 </html>
