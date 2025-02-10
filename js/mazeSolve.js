@@ -62,7 +62,6 @@ function drawSolution() {
                 const [x, y] = pixels[currentPixel];  // vzame pozicijo naslednjega pixla
                 ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
                 currentPixel++; // gre do naslednjega pixla
-                ctx.drawImage(portal, speed * size + size/2, speed * size + size/2 * size, size, size);
             }
 
             ctx.stroke();
