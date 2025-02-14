@@ -31,9 +31,6 @@ function drawSolution() {
     isAnimating = true;
 
     ctx.beginPath();
-    ctx.strokeStyle = 'green';
-    ctx.lineWidth = 4;
-
     // se premakne na zacetno tocko (* size + size / 2  se uporabi zato da se nahajanje zacne v sredini celice)
     ctx.moveTo(path[0].x * size + size / 2, path[0].y * size + size / 2);
 
@@ -52,13 +49,11 @@ function drawSolution() {
             for (let i = 0; i < speed && currentPixel < pixels.length; i++) {  // kontrolira koliko pixlov se narise na en korak - frame
                 // vecji kot je speed vec pixlov naenkrat se narise = animacija bo hitrejsa
                 const [x, y] = pixels[currentPixel];  // vzame pozicijo naslednjega pixla
-                // ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
                 currentPixel++; // gre do naslednjega pixla
 
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 drawMaze();
+                // ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
                 ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
-
                 ctx.drawImage(char1, x - size / 2, y - size / 2, size, size);
             }
 
@@ -89,7 +84,7 @@ function clearPath() {
     ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
     ctx.drawImage(char1, 0 * size, 0 * size, size, size);
     moveY = 0; // reset values, lokacija playerja
-    moveX = 0; 
+    moveX = 0;
 }
 
 // RIŠI BRIŠI
@@ -102,17 +97,25 @@ solveBtn.addEventListener('click', () => {
             drawSolution();
             solveBtn.textContent = "Clear";
             risi = false;
+
+            gridSizeBtn.disabled = true;
+            playBtn.disabled = true;
+            generateBtn.disabled = true;
         }
     }
     else {
         clearPath();
         solveBtn.textContent = "Solve";
         risi = true;
+
+        gridSizeBtn.disabled = false;
+        playBtn.disabled = false;
+        generateBtn.disabled = false;
     }
 });
 
-speedPick.addEventListener("change", function () {
-    speed = parseInt(speedPick.value, 10);
+speedBtn.addEventListener("change", function () {
+    speed = parseInt(speedBtn.value, 10);
 });
 
 

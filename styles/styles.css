@@ -28,8 +28,6 @@ html, body{
 #mazeCanvas {
     border: 1px solid black;
     background-color: rgba(255, 255, 255, 0.8);
-    border:4px solid green;
-    border-radius:16px;
     width: 800px;
 }
 .buttonCont{
@@ -37,7 +35,7 @@ html, body{
     gap: 20px;
     margin-top: 10px;
 }
-.buttonCont button, #difficulty, #speedSolve{
+.buttonCont button, #gridSize, #speedSolve{
     width:150px;
     height:45px;
     font-size: 20px;
@@ -45,19 +43,24 @@ html, body{
     color: white;
     border:none;
     border-radius: 10px;
-
+    user-select: none;
 }
-#difficulty, #speedSolve{
+.buttonCont button:hover, #gridSize:hover, #speedSolve:hover{
+    cursor: pointer;
+    background-color: rgb(10, 85, 14);
+}
+.buttonCont button:disabled, #gridSize:disabled, #speedSolve:disabled{
+    background-color: dimgray !important;
+    cursor: auto !important;
+    opacity: 0.7 !important;
+}
+#gridSize, #speedSolve{
     text-align: center;
 }
 .noOption{
    display:none;
 }
-#difficulty option, #speedSolve option{
+#gridSize option, #speedSolve option{
     background-color: rgb(110, 110, 110);
     color: rgb(254, 255, 255);
-}
-.buttonCont button:hover, #difficulty:hover, #speedSolve:hover{
-    cursor: pointer;
-    background-color: rgb(10, 85, 14);
 }

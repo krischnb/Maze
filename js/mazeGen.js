@@ -1,3 +1,15 @@
+// mazeGen.js
+const gridSizeBtn = document.getElementById("gridSize");
+const generateBtn = document.getElementById("generateMaze");
+
+// mazeSolve.js
+const solveBtn = document.getElementById("solveMaze");
+const speedBtn = document.getElementById("speedSolve");
+
+// player.js
+const playBtn = document.getElementById("playBtn");
+
+
 // variables - mazeGen.js
 
 let size = 40; // default size
@@ -6,7 +18,6 @@ const canvas = document.getElementById('mazeCanvas');
 const ctx = canvas.getContext('2d');
 let cols = Math.floor(canvas.width / size); // stevilo stolpcev
 let rows = Math.floor(canvas.height / size); // stevilo vrstic
-var pick = document.getElementById("difficulty");
 let charX = 0;
 let chary = 0;
 let grid = []; // struktura mreze, ki se potem ustvari v labirint    
@@ -19,14 +30,13 @@ let isAnimating = false;
 let animationTimeout;
 let animationFrameId;
 let risi = true;
-let solveBtn = document.getElementById("solveMaze");
-let speedPick = document.getElementById("speedSolve");
 let speed = 2; // default speed
 
 // variables from file player.js
 let moveX;
 let moveY;
-
+let gameStart;
+let playButton;
 /**
  * ustvari grid - mrežo: stevilo celic = vrstice*stolpci, vsaka celica ima vse 4 zide
  */
@@ -80,7 +90,7 @@ function generateMaze(x, y) {
 function drawMaze() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
 
     // iteracija skozi vsako celico v labirintu
     for (let y = 0; y < rows; y++) {
@@ -133,12 +143,15 @@ function genMaze() {
 
     moveY = 0; // reset values, lokacija playerja
     moveX = 0; 
+    playButton = false;
+    gameStart = false;
+    gameToggle();
 }
 
 // spreminjanje tezavnosti = velikosti labirinta
-pick.addEventListener("change", function () {
+gridSizeBtn.addEventListener("change", function () {
     stopAnimation();
-    size = parseInt(pick.value, 10);
+    size = parseInt(gridSizeBtn.value, 10);
     cols = Math.floor(canvas.width / size);
     rows = Math.floor(canvas.height / size);
     genMaze();
