@@ -1,11 +1,3 @@
-let path = [];
-let isAnimating = false;
-let animationTimeout;
-let animationFrameId;
-let risi = true;
-let solveBtn = document.getElementById("solveMaze");
-let speedPick = document.getElementById("speedSolve");
-let speed = 5; // default speed
 // zacetna tocka (0,0) - koncna tocka (cols-1, rows-1)
 // Depth First Search Algoritem (DFS) - obiskuje vse mozne poti od zacetne tocke do koncne, ko pride do dead enda, backtracka in gre naprej po unvisited poti
 
@@ -60,8 +52,14 @@ function drawSolution() {
             for (let i = 0; i < speed && currentPixel < pixels.length; i++) {  // kontrolira koliko pixlov se narise na en korak - frame
                 // vecji kot je speed vec pixlov naenkrat se narise = animacija bo hitrejsa
                 const [x, y] = pixels[currentPixel];  // vzame pozicijo naslednjega pixla
-                ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
+                // ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
                 currentPixel++; // gre do naslednjega pixla
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawMaze();
+                ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
+
+                ctx.drawImage(char1, x - size / 2, y - size / 2, size, size);
             }
 
             ctx.stroke();
@@ -87,9 +85,11 @@ function stopAnimation() {
 
 function clearPath() {
     stopAnimation();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMaze();
     ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
+    ctx.drawImage(char1, 0 * size, 0 * size, size, size);
+    moveY = 0; // reset values, lokacija playerja
+    moveX = 0; 
 }
 
 // RIŠI BRIŠI
