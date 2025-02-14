@@ -2,6 +2,7 @@ document.addEventListener("keydown", function (event) {
     if (!gameStart) // zacne se, ko kliknemo na gumb Play - Ce je gameStart false skoci ven iz funkcije
         return;
 
+        
     const cell = grid[moveY][moveX]; // trenutna celica, v kateri se character nahaja
 
     if (event.key === "W" || event.key === "w" || event.key === "ArrowUp") { // gor
@@ -23,9 +24,16 @@ document.addEventListener("keydown", function (event) {
     else { // ce ni nobena od navedenih tipk, skoci ven iz funckije, da ne bo brisalo labirinta in ga znova risal z brez veze
         return;
     }
+
+
 });
 
 function moveAnimation(targetX, targetY) { // target je nova pozicija characterja, kamor se bomo premaknili, ustvarimo animacijo od zacetne do koncne pozicije
+    if(targetX === rows-1 && targetY === cols-1){
+        swal("Finish!", "You have escaped the maze!", "success").then(() =>{
+            gameToggle(); // konec igre
+        });
+    }
     let newX = moveX; // se shrani zacetna pozicija characterja
     let newY = moveY;
     let steps = 20; // koraki oz. frames - vec kot jih je, bolj bo smooth animacija ampak tudi pocasnejsa
