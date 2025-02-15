@@ -29,6 +29,8 @@ function drawSolution() {
     let pixels = []; // tabela v katero damo 
     let stopped = false;
     isAnimating = true;
+    ctx.lineWidth = "4";
+    ctx.strokeStyle = "green";
 
     ctx.beginPath();
     // se premakne na zacetno tocko (* size + size / 2  se uporabi zato da se nahajanje zacne v sredini celice)
@@ -51,10 +53,14 @@ function drawSolution() {
                 const [x, y] = pixels[currentPixel];  // vzame pozicijo naslednjega pixla
                 currentPixel++; // gre do naslednjega pixla
 
-                drawMaze();
-                // ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
-                ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
-                ctx.drawImage(char1, x - size / 2, y - size / 2, size, size);
+                ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
+
+                // uporablja se drugi canvas za risanje potovanje characterja, ker ce brises med tem ko rises crto se animacija popaci
+                ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
+                if (speed === 9999)
+                    ctxChar.drawImage(char1, (cols - 1) * size, (rows - 1) * size, size, size);
+                else
+                    ctxChar.drawImage(char1, x - size / 2, y - size / 2, size, size);
             }
 
             ctx.stroke();
@@ -81,8 +87,9 @@ function stopAnimation() {
 function clearPath() {
     stopAnimation();
     drawMaze();
+    ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
     ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
-    ctx.drawImage(char1, 0 * size, 0 * size, size, size);
+    ctxChar.drawImage(char1, 0 * size, 0 * size, size, size);
     moveY = 0; // reset values, lokacija playerja
     moveX = 0;
 }

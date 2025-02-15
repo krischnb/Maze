@@ -64,8 +64,9 @@ function moveAnimation(targetX, targetY) { // target je nova pozicija characterj
 function drawCharacter() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawMaze();
+    ctxChar.clearRect(0,0, canvasChar.width, canvasChar.height);
     ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
-    ctx.drawImage(char1, moveX * size, moveY * size, size, size); // risanje characterja
+    ctxChar.drawImage(char1, moveX * size, moveY * size, size, size); // risanje characterja
 }
 
 function gameToggle() {

@@ -16,6 +16,8 @@ let size = 40; // default size
 // cell size v pixlah: size 20 = 30x30 grid, size 30 = 20x20 grid, size 40 = 15x15 grid, size 60 = 10x10 grid
 const canvas = document.getElementById('mazeCanvas');
 const ctx = canvas.getContext('2d');
+const canvasChar = document.getElementById('canvasChar');
+const ctxChar = canvasChar.getContext('2d');
 let cols = Math.floor(canvas.width / size); // stevilo stolpcev
 let rows = Math.floor(canvas.height / size); // stevilo vrstic
 let charX = 0;
@@ -90,7 +92,7 @@ function generateMaze(x, y) {
 function drawMaze() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1;
 
     // iteracija skozi vsako celico v labirintu
     for (let y = 0; y < rows; y++) {
@@ -136,7 +138,7 @@ function genMaze() {
     solveBtn.textContent = "Solve";
     risi = true; // risi brisi button postane solve v vsakem primeru
 
-    ctx.drawImage(char1, 0 * size, 0 * size, size, size);
+    ctxChar.drawImage(char1, 0 * size, 0 * size, size, size);
     ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
     // (cols - 1), (rows - 1) --- array pozicija spodnjega desnega kota
     // (cols - 1) * size, (rows - 1) * size --- pixel pozicija spodnjega desnega kota
