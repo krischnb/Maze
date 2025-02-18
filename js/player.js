@@ -1,8 +1,10 @@
+let drag = false;
 document.addEventListener("keydown", function (event) {
     if (!gameStart) // zacne se, ko kliknemo na gumb Play - Ce je gameStart false skoci ven iz funkcije
         return;
+    if (drag) // onemogocimo premikanje z drzanjem tipke
+        return;   
 
-        
     const cell = grid[moveY][moveX]; // trenutna celica, v kateri se character nahaja
 
     if (event.key === "W" || event.key === "w" || event.key === "ArrowUp") { // gor
@@ -24,8 +26,10 @@ document.addEventListener("keydown", function (event) {
     else { // ce ni nobena od navedenih tipk, skoci ven iz funckije, da ne bo brisalo labirinta in ga znova risal z brez veze
         return;
     }
-
-
+    drag=true;
+});
+document.addEventListener("keyup", function(){ // ko spustimo tipko, boolean drag postane false in omogocimo ponovno premikanje
+    drag=false;
 });
 
 function moveAnimation(targetX, targetY) { // target je nova pozicija characterja, kamor se bomo premaknili, ustvarimo animacijo od zacetne do koncne pozicije
@@ -36,7 +40,7 @@ function moveAnimation(targetX, targetY) { // target je nova pozicija characterj
     }
     let newX = moveX; // se shrani zacetna pozicija characterja
     let newY = moveY;
-    let steps = 20; // koraki oz. frames - vec kot jih je, bolj bo smooth animacija ampak tudi pocasnejsa
+    let steps = 10; // koraki oz. frames - vec kot jih je, bolj bo smooth animacija ampak tudi pocasnejsa
     let stepX = (targetX - newX) / steps; // izracun koraka - koliko se bo character premaknil na en frame - korak
     let stepY = (targetY - newY) / steps;
     let i = 0;
