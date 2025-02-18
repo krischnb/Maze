@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Generator</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gifler/0.1.0/gifler.min.js"></script>
+
+</head>
+
+<body onload="genMaze()">
+    <div class="glavni">
+        <div class="canvasCont">
+            <canvas id="mazeCanvas" width="600" height="600">
+                <img src="assets/char.svg" id="char1" style="display:none">
+                <img src="assets/portal.gif" id="portal" style="display:none">
+            </canvas>
+            <canvas id="canvasChar" width="600" height="600"></canvas>
+        </div>
+        <div class="buttonCont">
+            <button id="playBtn" onclick="gameToggle()">Play</button>
+            <button id="generateMaze" onclick="genMaze()">Generate</button>
+            <button id="solveMaze">Solve</button>
+            <select id="speedSolve">
+                <option class="noOption" disabled selected>Speed</option>
+                <option value="1" id="speed1">Slow</option>
+                <option value="2" id="speed2">Medium</option>
+                <option value="15" id="speed3">Fast</option>
+                <option value="9999" id="speed4">Instant</option>
+            </select>
+            <!-- <button id="clearSolve" onclick="clearPath()">Clear</button> -->
+            <select id="gridSize">
+                <option class="noOption" disabled selected>Grid size</option>
+                <option value="60" id="size1">10x10</option>
+                <option value="40" id="size2">15x15</option>
+                <option value="30" id="size3">20x20</option>
+                <option value="20" id="size4">30x30</option>
+            </select>
+            </button>
+        </div>
+
+        <img src="assets/bg2.png" class="backImg" alt="Bg">
+        <script src="js/mazeGen.js"></script>
+        <script src="js/mazeSolve.js"></script>
+        <script src="js/player.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+
+</html>
