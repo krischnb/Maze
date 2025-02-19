@@ -30,7 +30,7 @@ function drawSolution() {
     let stopped = false;
     isAnimating = true;
     ctx.lineWidth = "4";
-    ctx.strokeStyle = "green";
+    ctx.strokeStyle = "rgb(134, 43, 127)";
 
     ctx.beginPath();
     // se premakne na zacetno tocko (* size + size / 2  se uporabi zato da se nahajanje zacne v sredini celice)
