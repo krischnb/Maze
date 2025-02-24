@@ -14,16 +14,16 @@ html, body{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    z-index: 2;
+    z-index: 2; 
 }
 .backImg{
     height:100%;
     width:100%;
     opacity: 0.6;
-    position: fixed;
     z-index: -999;
     top: 0;
-    left: 0;
+    left: 0;   
+    position: fixed;
 }
 .canvasCont{
     position: relative;
@@ -48,19 +48,22 @@ html, body{
     width:150px;
     height:45px;
     font-size: 20px;
-    background-color: rgb(159, 51, 163);
+    background-color: rgb(12, 128, 12);
     color: white;
     border:none;
     border-radius: 10px;
     user-select: none;
+    transition-duration: 0.2s;
 }
 .buttonCont button:hover, #gridSize:hover, #speedSolve:hover{
-    background-color: rgb(134, 43, 127);
+    background-color: rgb(12, 75, 12);
+    transition-duration: 0.2s;
 }
 .buttonCont button:disabled, #gridSize:disabled, #speedSolve:disabled{
     background-color: dimgray !important;
     cursor: auto !important;
     opacity: 0.7 !important;
+    transition-duration: 0.2s;
 }
 #gridSize, #speedSolve{
     text-align: center;

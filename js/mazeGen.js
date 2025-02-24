@@ -23,7 +23,7 @@ let rows = Math.floor(canvas.height / size); // stevilo vrstic
 let charX = 0;
 let chary = 0;
 let grid = []; // struktura mreze, ki se potem ustvari v labirint    
-const portal = document.getElementById("portal");
+const finish = document.getElementById("finish");
 const char1 = document.getElementById("char1");
 
 // variables from file mazeSolve.js
@@ -37,8 +37,9 @@ let speed = 2; // default speed
 // variables from file player.js
 let moveX;
 let moveY;
-let gameStart;
-let playButton;
+let gameStart = false;
+let playButton = true;
+
 /**
  * ustvari grid - mrežo: stevilo celic = vrstice*stolpci, vsaka celica ima vse 4 zide
  */
@@ -137,17 +138,13 @@ function genMaze() {
     drawMaze();
     solveBtn.textContent = "Solve";
     risi = true; // risi brisi button postane solve v vsakem primeru
-
+    
+    ctx.drawImage(finish, (cols - 1) * size + 2.5, (rows - 1) * size + 2.5, size-5, size-5);
+    ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
     ctxChar.drawImage(char1, 0 * size, 0 * size, size, size);
-    ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
     // (cols - 1), (rows - 1) --- array pozicija spodnjega desnega kota
     // (cols - 1) * size, (rows - 1) * size --- pixel pozicija spodnjega desnega kota
 
-    moveY = 0; // reset values, lokacija playerja
-    moveX = 0; 
-    playButton = false;
-    gameStart = false;
-    gameToggle();
 }
 
 // spreminjanje tezavnosti = velikosti labirinta

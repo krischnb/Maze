@@ -61,7 +61,7 @@ function moveAnimation(targetX, targetY, callback) { // animacija premika charac
 
     let newX = moveX; // na zacetku se shrani trenutna pozicija characterja, potem se bo pristevala nova pozicija po majhnih delckih (frames)
     let newY = moveY;
-    let frames = 15; // frames odlocajo, v kolikih korakih, bo bila izvedena animacija (npr. 10 frames, 10 delckov animacije premika)
+    let frames = 20; // frames odlocajo, v kolikih korakih, bo bila izvedena animacija (npr. 10 frames, 10 delckov animacije premika)
     let stepX = (targetX - moveX) / frames; // izracun, koliko se bomo premaknili na en korak, en frame, ce bo 60 framov, se bo animacija izvajala 1 sekundo za premik ene celice
     let stepY = (targetY - moveY) / frames; // nova pozicija se odsteje od trenutne, da izvemo kam se premaknemo, potem to delimo z frames - da postavimo potek animacije na korake
     let i = 0;
@@ -86,14 +86,14 @@ function moveAnimation(targetX, targetY, callback) { // animacija premika charac
 }
 
 function drawCharacter() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawMaze();
     ctxChar.clearRect(0,0, canvasChar.width, canvasChar.height);
-    ctx.drawImage(portal, (cols - 1) * size, (rows - 1) * size, size, size);
     ctxChar.drawImage(char1, moveX * size, moveY * size, size, size); // risanje characterja
 }
 
 function gameToggle() {
+    moveY = 0; // resetira kordinate playerja, po in pred igro
+    moveX = 0; 
+
     if (playButton) { // Play button
         gameStart = true;
         playButton = false;
@@ -108,8 +108,6 @@ function gameToggle() {
         gameStart = false;
         playButton = true;
         playBtn.textContent = "Play";    
-        moveY = 0; // reset values, lokacija playerja
-        moveX = 0; 
 
         gridSizeBtn.disabled = false;  // omogocimo ostale tipke, ce ustavimo igro
         generateBtn.disabled = false;
