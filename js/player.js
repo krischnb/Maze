@@ -1,66 +1,86 @@
-let drag = false;
-document.addEventListener("keydown", function (event) {
-    if (!gameStart) // zacne se, ko kliknemo na gumb Play - Ce je gameStart false skoci ven iz funkcije
-        return;
-    if (drag) // onemogocimo premikanje z drzanjem tipke
-        return;   
+let activeKeys = new Set(); // set, ki vsebuje trenutne pritiskane tipke
+let isMoving = false; // se uporablja, da blokira animacijo za druge smeri, kadar ze potuje v eno smer
 
-    const cell = grid[moveY][moveX]; // trenutna celica, v kateri se character nahaja
+document.addEventListener("keydown", function (event) { // zazna ko kliknemo na tipko
+    if (!gameStart) return; 
 
-    if (event.key === "W" || event.key === "w" || event.key === "ArrowUp") { // gor
-        if (!cell.top) // boundaries - ce zgornjega zida ni
-            moveAnimation(moveX, moveY - 1); // se bo premaknilo eno celico
-    }
-    else if (event.key === "A" || event.key === "a" || event.key === "ArrowLeft") { // levo
-        if (!cell.left)
-            moveAnimation(moveX - 1, moveY);
-    }
-    else if (event.key === "S" || event.key === "s" || event.key === "ArrowDown") { // dol
-        if (!cell.bottom)
-            moveAnimation(moveX, moveY + 1);
-    }
-    else if (event.key === "D" || event.key === "d" || event.key === "ArrowRight") { // desno
-        if (!cell.right)
-            moveAnimation(moveX + 1, moveY);
-    }
-    else { // ce ni nobena od navedenih tipk, skoci ven iz funckije, da ne bo brisalo labirinta in ga znova risal z brez veze
-        return;
-    }
-    drag=true;
-});
-document.addEventListener("keyup", function(){ // ko spustimo tipko, boolean drag postane false in omogocimo ponovno premikanje
-    drag=false;
+    const key = event.key.toUpperCase(); // tipka na katero kliknemo, postane velika, da zazna tudi mali WASD
+    activeKeys.add(key); // zaporedja pritisnjenih tipk se hranijo v set
+
+    if (!isMoving)  // se izvede, ce animacija ni v teku
+        moveCharacter();
 });
 
-function moveAnimation(targetX, targetY) { // target je nova pozicija characterja, kamor se bomo premaknili, ustvarimo animacijo od zacetne do koncne pozicije
-    if(targetX === rows-1 && targetY === cols-1){
-        swal("Finish!", "You have escaped the maze!", "success").then(() =>{
-            gameToggle(); // konec igre
-        });
+document.addEventListener("keyup", function (event) { // zazna, ko spustimo tipko
+    const key = event.key.toUpperCase(); 
+    activeKeys.delete(key); // izbrise tipko, ki smo jo spustili iz aktivnega seta
+});
+
+function moveCharacter() {
+    if (!gameStart || activeKeys.size === 0) {  // zacne se, ko kliknemo na gumb Play - Ce je gameStart false skoci ven iz funkcije, al pa ce ni nobene aktivne tipke v setu
+        isMoving = false; 
+        return; 
     }
-    let newX = moveX; // se shrani zacetna pozicija characterja
+
+    const cell = grid[moveY][moveX]; // trenutna pozicija playerja
+    let targetX = moveX; // nova pozicija (v katero se bomo premaknili) dobi vrednost trenutne, potem ko preveri smer
+    let targetY = moveY;
+
+
+    if ((activeKeys.has("W") || activeKeys.has("ARROWUP")) && !cell.top) { // gor, zazna klik na WASD ali puscice, ce odzgoraj ni zida, se lahko premaknemo navzgor, cell.top predstavlja zid nad trenutne celico
+        targetY--; // nova pozicija se odsteje za ena od trenutne, eno celico navzgor se bomo premaknili
+    } else if ((activeKeys.has("S") || activeKeys.has("ARROWDOWN")) && !cell.bottom) { // dol
+        targetY++;
+    } else if ((activeKeys.has("A") || activeKeys.has("ARROWLEFT")) && !cell.left) { // levo
+        targetX--;
+    } else if ((activeKeys.has("D") || activeKeys.has("ARROWRIGHT")) && !cell.right) { // desno
+        targetX++;
+    }
+
+
+    if ((targetX !== moveX && targetY !== moveY) && (cell.left || cell.right || cell.top || cell.bottom)) { 
+        // ce sta spremenjeni X IN Y kordinati, to je nevarno, ker se lahko zgodi diagonel premik, zato to blokiramo
+        // in ce so zidi okrog celice
+        return; // blokira diagonalen movement, da ne skoci skozi zid
+    }
+
+    if ((targetX !== moveX || targetY !== moveY) && activeKeys.size) { // ce je spremenjena samo ena smer, X ali Y
+        isMoving = true; // oznacimo, da animacija premikanja se izvaja
+        moveAnimation(targetX, targetY, moveCharacter); // poklicemo metodo, s katero animiramo premik
+        // klice metodo moveCharacter ponovno, ce tipko drzimo - drag
+    } else {
+        isMoving = false; // ce se premik ne izvede, oznacimo premik na false, da vstavimo nadaljni premik
+    }
+}
+
+function moveAnimation(targetX, targetY, callback) { // animacija premika characterja od trenutne do nove pozicije
+    if (targetX === cols - 1 && targetY === rows - 1) { // ce smo prisli na konec labirinta, ustavimo igro
+        gameStart = false;
+        swal("Finish!", "You have escaped the maze!", "success").then(gameToggle); // koncno sporocilo, ki nas obvesca da smo prisli do konca
+    }
+
+    let newX = moveX; // na zacetku se shrani trenutna pozicija characterja, potem se bo pristevala nova pozicija po majhnih delckih (frames)
     let newY = moveY;
-    let steps = 10; // koraki oz. frames - vec kot jih je, bolj bo smooth animacija ampak tudi pocasnejsa
-    let stepX = (targetX - newX) / steps; // izracun koraka - koliko se bo character premaknil na en frame - korak
-    let stepY = (targetY - newY) / steps;
+    let frames = 15; // frames odlocajo, v kolikih korakih, bo bila izvedena animacija (npr. 10 frames, 10 delckov animacije premika)
+    let stepX = (targetX - moveX) / frames; // izracun, koliko se bomo premaknili na en korak, en frame, ce bo 60 framov, se bo animacija izvajala 1 sekundo za premik ene celice
+    let stepY = (targetY - moveY) / frames; // nova pozicija se odsteje od trenutne, da izvemo kam se premaknemo, potem to delimo z frames - da postavimo potek animacije na korake
     let i = 0;
 
     moveStep();
-    function moveStep() { // rekurzija z built-in metodo requestAnimationFrame
-        if (i < steps) { // kolikor je framov, tolikokrat se bo ponovila ta funckija
-            newX += stepX; // na en korak se character premika kolikor je velik stepX
+    function moveStep() {
+        if (i < frames) { // ustavimo animacijo, ko narisemo vse korake, frames
+            newX += stepX; // v novo pozicijo se pristevajo koraki, in to pozicijo narisemo, s tem ustvarimo animacijo premika
             newY += stepY;
-            moveX = newX; // segmenti novejse pozicije se shranjajo v staro, ko je animacija koncana, stara pozicija dobi novo
+            moveX = newX;
             moveY = newY;
-            drawCharacter(); // risanje animacije s kordinatami moveX in moveY
-
-            requestAnimationFrame(moveStep); // metoda "requestAnimationFrame" ima ponavadi 60FPS, ce je 60 steps-ov se bo animacija izvajala 1 sekundo
-            // ----- steps / FPS = dolzina animacije 
+            drawCharacter();
+            requestAnimationFrame(moveStep);
             i++;
-        } else { // konec animacije, nove pozicije se shranijo v stare
+        } else {
             moveX = targetX;
             moveY = targetY;
             drawCharacter();
+            callback(); // nadaljni movement, ce drzimo na tipko, to je metoda moveCharacter
         }
     }
 }
@@ -79,12 +99,10 @@ function gameToggle() {
         playButton = false;
         playBtn.textContent = "Stop";
 
-        gridSizeBtn.disabled = true;
+        gridSizeBtn.disabled = true; // onemogocimo tipke, ko je igra aktivna
         generateBtn.disabled = true;
         solveBtn.disabled = true;
         speedBtn.disabled = true;
-    
-
     }
     else { // Stop button
         gameStart = false;
@@ -93,7 +111,7 @@ function gameToggle() {
         moveY = 0; // reset values, lokacija playerja
         moveX = 0; 
 
-        gridSizeBtn.disabled = false;        
+        gridSizeBtn.disabled = false;  // omogocimo ostale tipke, ce ustavimo igro
         generateBtn.disabled = false;
         solveBtn.disabled = false;
         speedBtn.disabled = false;
