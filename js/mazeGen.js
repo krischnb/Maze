@@ -24,7 +24,30 @@ let charX = 0;
 let chary = 0;
 let grid = []; // struktura mreze, ki se potem ustvari v labirint    
 const finish = document.getElementById("finish");
-const char1 = document.getElementById("char1");
+
+// slike, vseh 4 smeri, ko character miruje
+const charDown = document.getElementById("charDown"); // default smer characterja
+const charUp = document.getElementById("charUp");
+const charLeft = document.getElementById("charLeft");
+const charRight = document.getElementById("charRight");
+
+// slike za dol
+const charDown1 = document.getElementById("charDown1");
+const charDown2 = document.getElementById("charDown2");
+
+// slike za levo
+const charLeft1 = document.getElementById("charLeft1");
+const charLeft2 = document.getElementById("charLeft2");
+const charLeft3 = document.getElementById("charLeft3");
+
+// slike za desno
+const charRight1 = document.getElementById("charRight1");
+const charRight2 = document.getElementById("charRight2");
+const charRight3 = document.getElementById("charRight3");
+
+// slike za gor
+const charUp1 = document.getElementById("charUp1");
+const charUp2 = document.getElementById("charUp2");
 
 // variables from file mazeSolve.js
 let path = [];
@@ -32,13 +55,19 @@ let isAnimating = false;
 let animationTimeout;
 let animationFrameId;
 let risi = true;
-let speed = 2; // default speed
+let speed = 3; // default speed
 
 // variables from file player.js
 let moveX;
 let moveY;
 let gameStart = false;
 let playButton = true;
+
+
+const tile1 = document.getElementById("tile1");
+const tile2 = document.getElementById("tile2");
+
+
 
 /**
  * ustvari grid - mrežo: stevilo celic = vrstice*stolpci, vsaka celica ima vse 4 zide
@@ -138,10 +167,10 @@ function genMaze() {
     drawMaze();
     solveBtn.textContent = "Solve";
     risi = true; // risi brisi button postane solve v vsakem primeru
-    
-    ctx.drawImage(finish, (cols - 1) * size + 2.5, (rows - 1) * size + 2.5, size-5, size-5);
+
+    ctx.drawImage(finish, (cols - 1) * size + 2.5, (rows - 1) * size + 2.5, size - 5, size - 5);
     ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
-    ctxChar.drawImage(char1, 0 * size, 0 * size, size, size);
+    ctxChar.drawImage(charDown, 0 * size, 0 * size, size, size); // privzeta slika, ko character miruje in je obrnjen proti nam
     // (cols - 1), (rows - 1) --- array pozicija spodnjega desnega kota
     // (cols - 1) * size, (rows - 1) * size --- pixel pozicija spodnjega desnega kota
 

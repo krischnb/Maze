@@ -58,9 +58,9 @@ function drawSolution() {
                 // uporablja se drugi canvas za risanje potovanje characterja, ker ce brises med tem ko rises crto se animacija popaci
                 ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
                 if (speed === 9999)
-                    ctxChar.drawImage(char1, (cols - 1) * size, (rows - 1) * size, size, size);
+                    ctxChar.drawImage(charDown, (cols - 1) * size, (rows - 1) * size, size, size);
                 else
-                    ctxChar.drawImage(char1, x - size / 2, y - size / 2, size, size);
+                    ctxChar.drawImage(charDown, x - size / 2, y - size / 2, size, size);
             }
 
             ctx.stroke();
@@ -88,8 +88,8 @@ function clearPath() {
     stopAnimation();
     drawMaze();
     ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
-    ctx.drawImage(finish, (cols - 1) * size, (rows - 1) * size, size, size);
-    ctxChar.drawImage(char1, 0 * size, 0 * size, size, size);
+    ctx.drawImage(finish, (cols - 1) * size + 2.5, (rows - 1) * size + 2.5, size-5, size-5);
+    ctxChar.drawImage(charDown, 0 * size, 0 * size, size, size);
     moveY = 0; // reset values, lokacija playerja
     moveX = 0;
 }

@@ -16,8 +16,31 @@
     <div class="glavni">
         <div class="canvasCont">
             <canvas id="mazeCanvas" width="600" height="600">
-                <img src="assets/sonic.png" id="char1">
-                <img src="assets/finish.png" alt="Finish" id="finish">
+
+                <img src="assets/sonicSprites/sonicDown.png" id="charDown">
+                <img src="assets/sonicSprites/sonicLeft.png" id="charLeft">
+                <img src="assets/sonicSprites/sonicRight.png" id="charRight">
+                <img src="assets/sonicSprites/sonicUp.png" id="charUp">
+
+                <img src="assets/sonicSprites/sonicDown1.png" id="charDown1">
+                <img src="assets/sonicSprites/sonicDown2.png" id="charDown2">
+
+                
+                <img src="assets/sonicSprites/sonicUp1.png" id="charUp1">
+                <img src="assets/sonicSprites/sonicUp2.png" id="charUp2">
+                
+                <img src="assets/sonicSprites/sonicLeft1.png" id="charLeft1">
+                <img src="assets/sonicSprites/sonicLeft2.png" id="charLeft2">
+                <img src="assets/sonicSprites/sonicLeft3.png" id="charLeft3">
+
+                <img src="assets/sonicSprites/sonicRight1.png" id="charRight1">
+                <img src="assets/sonicSprites/sonicRight2.png" id="charRight2">
+                <img src="assets/sonicSprites/sonicRight3.png" id="charRight3">
+
+                <img src="assets/finish.png" alt="Finish" id="finish">                
+                <img src="assets/tile1.png" alt="tile" id="tile1">                
+                <img src="assets/tile2.png" alt="tile" id="tile2">
+
             </canvas>
             <canvas id="canvasChar" width="600" height="600"></canvas>
         </div>
@@ -28,7 +51,7 @@
             <select id="speedSolve">
                 <option class="noOption" disabled selected>Speed</option>
                 <option value="1" id="speed1">Slow</option>
-                <option value="2" id="speed2">Medium</option>
+                <option value="3" id="speed2">Medium</option>
                 <option value="15" id="speed3">Fast</option>
                 <option value="9999" id="speed4">Instant</option>
             </select>
@@ -47,5 +70,4 @@
         <script src="js/player.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
-
 </html>
