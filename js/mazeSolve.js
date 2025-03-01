@@ -46,26 +46,94 @@ function drawSolution() {
             x2 * size + size / 2, y2 * size + size / 2));
     }
 
+    let charDirectionSolve = charDown;
+    let picToggle = false;  // boolean, za menjavo dveh slik
+    let picToggle3 = 1; // stevec za menjavo 3 slik v krogu
+    let frameCounter = 0; // Nek counter. Vsakic ko doseze vrednost frameLimita, se bodo slike zamenjale (frameCounter % frameLimit === 0)
+    let frameLimit = size; // frameLimit ima vrednost od velikosti celice. To pomeni, da za vsako celico bo nova slika, ce se premikamo v isto smer
+
     function animate() {
         if (currentPixel < pixels.length && !stopped) { // ce se risanje se ni koncalo
             for (let i = 0; i < speed && currentPixel < pixels.length; i++) {  // kontrolira koliko pixlov se narise na en korak - frame
                 // vecji kot je speed vec pixlov naenkrat se narise = animacija bo hitrejsa
                 const [x, y] = pixels[currentPixel];  // vzame pozicijo naslednjega pixla
-                currentPixel++; // gre do naslednjega pixla
 
-                ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
+                if (speed !== 9999) {  // ce je hitrost instant, se to NE izvede, zato da se ne riše slik za brezveze
 
-                // uporablja se drugi canvas za risanje potovanje characterja, ker ce brises med tem ko rises crto se animacija popaci
-                ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
-                if (speed === 9999)
+                    let prevX, prevY; // predhodnik X in Y, uporabljalo se jih bo za primerjavo prejsnih in trenutnih  kordinatov, na ta nacin bomo vedli v katero smer se premikamo
+                    if (currentPixel === 0) { // v primeru da je index (currentPixel) nič, se podatki samo prekopirajo, zato da ne bo Indexoutofbounds exception
+                        prevX = x;
+                        prevY = y;
+                    } else {
+                        [prevX, prevY] = pixels[currentPixel - 1]; // shrani se X in Y prejsnih kordinat 
+                    }
+
+                    if(frameCounter % frameLimit === 0){
+                        picToggle = !picToggle; 
+                        if(picToggle3 === 4)
+                            picToggle3 = 0;
+                        picToggle3++;
+                    }
+
+                    // Smeri v katere se premikamo
+                    if (y < prevY) {  // ce se premikamo GOR
+                        if (picToggle) {
+                            charDirectionSolve = charUp1;
+                        }
+                        else {
+                            charDirectionSolve = charUp2;
+                        }
+                    }
+                    else if (y > prevY) { // DOL
+                        if (picToggle) {
+                            charDirectionSolve = charDown1;
+                        }
+                        else {
+                            charDirectionSolve = charDown2;
+                        }
+                    }
+                    else if (x < prevX) { // LEVO
+                        if (picToggle3 === 1) {
+                            charDirectionSolve = charLeft1;
+                        }
+                        else if(picToggle3 === 2) {
+                            charDirectionSolve = charLeft2;
+                        }
+                        else{
+                            charDirectionSolve = charLeft3;
+                        }
+                    }
+                    else if (x > prevX) { // DESNO
+                        if (picToggle3 === 1) {
+                            charDirectionSolve = charRight1;
+                        }
+                        else if(picToggle3 === 2) {
+                            charDirectionSolve = charRight2;
+                        }
+                        else{
+                            charDirectionSolve = charRight3;
+                        }
+                    }
+
+                    ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
+                    ctxChar.drawImage(charDirectionSolve, x - size / 2, y - size / 2, size, size);
+
+                    frameCounter++;
+                }
+                else { // ce je hitrost instant, se animacije ne bo risalo, ampak character bo avtomatsko bil postavljen na konec
+                    ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
                     ctxChar.drawImage(charDown, (cols - 1) * size, (rows - 1) * size, size, size);
-                else
-                    ctxChar.drawImage(charDown, x - size / 2, y - size / 2, size, size);
+                }
+
+                currentPixel++; // gre do naslednjega pixla
+                ctx.lineTo(x, y);  //  narise linijo do naslednega pixla
             }
 
             ctx.stroke();
             animationFrameId = requestAnimationFrame(animate); // built in funkcija, 60 FPS default, narise se (speed * 60 pixlov) na sekundo
-        } else {
+        } else { // ko pridemo na konec
+            ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
+            ctxChar.drawImage(charDown, (cols - 1) * size, (rows - 1) * size, size, size);
             ctx.closePath();
             isAnimating = false;
         }
@@ -73,7 +141,6 @@ function drawSolution() {
 
     animate();
 }
-
 function stopAnimation() {
     if (animationFrameId) {
         cancelAnimationFrame(animationFrameId); // prekine animation frame
@@ -88,7 +155,7 @@ function clearPath() {
     stopAnimation();
     drawMaze();
     ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
-    ctx.drawImage(finish, (cols - 1) * size + 2.5, (rows - 1) * size + 2.5, size-5, size-5);
+    ctx.drawImage(finish, (cols - 1) * size + 2.5, (rows - 1) * size + 2.5, size - 5, size - 5);
     ctxChar.drawImage(charDown, 0 * size, 0 * size, size, size);
     moveY = 0; // reset values, lokacija playerja
     moveX = 0;
