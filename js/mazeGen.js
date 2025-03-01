@@ -170,7 +170,7 @@ function genMaze() {
 
     ctx.drawImage(finish, (cols - 1) * size + 2.5, (rows - 1) * size + 2.5, size - 5, size - 5);
     ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
-    ctxChar.drawImage(charDown, 0 * size, 0 * size, size, size); // privzeta slika, ko character miruje in je obrnjen proti nam
+    ctxChar.drawImage(charDown, 0, 0, size, size); // privzeta slika, ko character miruje in je obrnjen proti nam
     // (cols - 1), (rows - 1) --- array pozicija spodnjega desnega kota
     // (cols - 1) * size, (rows - 1) * size --- pixel pozicija spodnjega desnega kota
 
