@@ -80,3 +80,24 @@ html, body{
     background-color: rgb(110, 110, 110);
     color: rgb(254, 255, 255);
 }
+.swal-title{
+    font-size: 30px;
+    font-family: sans-serif;
+    font-weight: 600;
+    margin-bottom: 20px !important;
+}
+.swal-text{
+    font-size: 18px;
+    font-family: sans-serif;
+}
+.swal-button{
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+.swal-button--confirm{
+    background-color: green;
+}
+.swal-button--confirm:hover{
+    background-color: rgb(9, 82, 9) !important;
+}

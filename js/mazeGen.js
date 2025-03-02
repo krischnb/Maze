@@ -25,6 +25,10 @@ let chary = 0;
 let grid = []; // struktura mreze, ki se potem ustvari v labirint    
 const finish = document.getElementById("finish");
 
+let startX, startY; // kordinati, kjer se maze zacne (tam bo bil postavljen character)
+let endX, endY; // kordinati, kjer se maze konca (tam bo bila postavljena zastavica, ki prikazuje cilj)
+let random;
+
 // slike, vseh 4 smeri, ko character miruje
 const charDown = document.getElementById("charDown"); // default smer characterja
 const charUp = document.getElementById("charUp");
@@ -63,12 +67,6 @@ let moveY;
 let gameStart = false;
 let playButton = true;
 
-
-const tile1 = document.getElementById("tile1");
-const tile2 = document.getElementById("tile2");
-
-
-
 /**
  * ustvari grid - mrežo: stevilo celic = vrstice*stolpci, vsaka celica ima vse 4 zide
  */
@@ -85,6 +83,36 @@ function createGrid() {
                 visited: false
             };
         }
+    }
+}
+
+function randomStartEnd() { // funckija, ki nakljucno generira zacno in koncno pozicijo. (nastopajo le v kotih labirinta)
+    random = Math.floor(Math.random() * 4) + 1; // od 1 do 4
+    switch (random) {
+        case 1:
+            startX = 0;
+            startY = 0; // zacetna pozicija - v zgornjem levem kotu
+            endX = cols - 1;
+            endY = rows - 1; // konca pozicija - v spodnjem desnem kotu
+            break;
+        case 2:
+            startX = cols - 1;
+            startY = rows - 1; // zacetna pozicija - v spodnjem desnem kotu
+            endX = 0;
+            endY = 0; // koncna pozicija - v zgornjem levem kotu
+            break;
+        case 3:
+            startX = 0;
+            startY = rows - 1; // zacetna pozicija - v spodnjem levem kotu
+            endX = cols - 1;
+            endY = 0; // koncna pozicija - v zgornjem desnem kotu
+            break;
+        case 4:
+            startX = cols - 1;
+            startY = 0; // zacetna pozicija - v zgornjem desnem kotu
+            endX = 0;
+            endY = rows - 1; // koncna pozicija - v spodnjem levem kotu
+            break;
     }
 }
 
@@ -163,14 +191,15 @@ function shuffleArray(array) {
 function genMaze() {
     stopAnimation();
     createGrid();
-    generateMaze(cols - 1, rows - 1); // rekurzija se zacne v spodnjem desnem kotu, zato da je labirint tezji, ker starting tocka je na nasportni strani
+    randomStartEnd();
+    generateMaze(endX , endY); // rekurzija se zacne na koncni pozicji, in se generira proti cilj
     drawMaze();
     solveBtn.textContent = "Solve";
     risi = true; // risi brisi button postane solve v vsakem primeru
 
-    ctx.drawImage(finish, (cols - 1) * size + 2.5, (rows - 1) * size + 2.5, size - 5, size - 5);
+    ctx.drawImage(finish, endX * size + 2.5, endY * size + 2.5, size - 5, size - 5);
     ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
-    ctxChar.drawImage(charDown, 0, 0, size, size); // privzeta slika, ko character miruje in je obrnjen proti nam
+    ctxChar.drawImage(charDown, startX * size, startY * size, size, size); // privzeta slika, ko character miruje in je obrnjen proti nam
     // (cols - 1), (rows - 1) --- array pozicija spodnjega desnega kota
     // (cols - 1) * size, (rows - 1) * size --- pixel pozicija spodnjega desnega kota
 

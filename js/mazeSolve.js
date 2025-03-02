@@ -1,8 +1,7 @@
-// zacetna tocka (0,0) - koncna tocka (cols-1, rows-1)
 // Depth First Search Algoritem (DFS) - obiskuje vse mozne poti od zacetne tocke do koncne, ko pride do dead enda, backtracka in gre naprej po unvisited poti
 
 function solveMaze(x, y, visited) {
-    if (x === cols - 1 && y === rows - 1) { // ce pride do koncne tocke (cols-1, rows-1) - je iskanje opravljeno in se konca
+    if (x === endX && y === endY) { // ce pride do koncne tocke - je iskanje opravljeno in se konca
         path.push({ x, y }); // endpoint se shrani v path. (push se uporablja za dodajanje elementov v array (polje)). "Podobno" kot .append() v SB JAVA
         return true;
     }
@@ -15,7 +14,7 @@ function solveMaze(x, y, visited) {
     path.push({ x, y }); // doda celico v solution path
 
     // rekurzivno se premika v možne smeri. Preverja če obstaja zid 
-    if (!grid[y][x].right && solveMaze(x + 1, y, visited)) return true;  // NPR. to pomeni, če obstaja zid na desni strani bo šlo pogledat v desno
+    if (!grid[y][x].right && solveMaze(x + 1, y, visited)) return true;  // NPR. to pomeni, če ne obstaja zid na desni strani bo šlo pogledat v desno
     if (!grid[y][x].bottom && solveMaze(x, y + 1, visited)) return true;
     if (!grid[y][x].left && solveMaze(x - 1, y, visited)) return true;
     if (!grid[y][x].top && solveMaze(x, y - 1, visited)) return true;
@@ -68,11 +67,11 @@ function drawSolution() {
                         [prevX, prevY] = pixels[currentPixel - 1]; // shrani se X in Y prejsnih kordinat 
                     }
 
-                    if(frameCounter % frameLimit === 0){
-                        picToggle = !picToggle; 
-                        if(picToggle3 === 4)
+                    if (frameCounter % frameLimit === 0) {  // zgodi se vsakic ko pretecemo razdaljo ene celice
+                        picToggle = !picToggle;
+                        if (picToggle3 === 4)
                             picToggle3 = 0;
-                        picToggle3++;
+                        picToggle3++;  // nova slika
                     }
 
                     // Smeri v katere se premikamo
@@ -96,10 +95,10 @@ function drawSolution() {
                         if (picToggle3 === 1) {
                             charDirectionSolve = charLeft1;
                         }
-                        else if(picToggle3 === 2) {
+                        else if (picToggle3 === 2) {
                             charDirectionSolve = charLeft2;
                         }
-                        else{
+                        else {
                             charDirectionSolve = charLeft3;
                         }
                     }
@@ -107,10 +106,10 @@ function drawSolution() {
                         if (picToggle3 === 1) {
                             charDirectionSolve = charRight1;
                         }
-                        else if(picToggle3 === 2) {
+                        else if (picToggle3 === 2) {
                             charDirectionSolve = charRight2;
                         }
-                        else{
+                        else {
                             charDirectionSolve = charRight3;
                         }
                     }
@@ -122,7 +121,7 @@ function drawSolution() {
                 }
                 else { // ce je hitrost instant, se animacije ne bo risalo, ampak character bo avtomatsko bil postavljen na konec
                     ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
-                    ctxChar.drawImage(charDown, (cols - 1) * size, (rows - 1) * size, size, size);
+                    ctxChar.drawImage(charDown, (endX) * size, (endY) * size, size, size);
                 }
 
                 currentPixel++; // gre do naslednjega pixla
@@ -133,9 +132,34 @@ function drawSolution() {
             animationFrameId = requestAnimationFrame(animate); // built in funkcija, 60 FPS default, narise se (speed * 60 pixlov) na sekundo
         } else { // ko pridemo na konec
             ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
-            ctxChar.drawImage(charDown, (cols - 1) * size, (rows - 1) * size, size, size);
+            ctxChar.drawImage(charDown, (endX) * size, (endY) * size, size, size);
             ctx.closePath();
             isAnimating = false;
+
+            swal({
+                title: "Success",
+                text: "The solution path has been found!",
+                icon: "success",
+                buttons: {
+                    confirm: {
+                        text: "Clear",
+                        value: true, // boolean restart pridobi vrednost true
+                        visible: true,
+                        closeModal: true 
+                    },
+                    cancel: {
+                        text: "Close",
+                        value: false,
+                        visible: true,
+                        closeModal: true
+                    }
+                }
+            }).then((restart) => {
+                if (restart) {
+                    clearPath();
+                    risiBrisi();
+                }
+            });
         }
     }
 
@@ -155,19 +179,22 @@ function clearPath() {
     stopAnimation();
     drawMaze();
     ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
-    ctx.drawImage(finish, (cols - 1) * size + 2.5, (rows - 1) * size + 2.5, size - 5, size - 5);
-    ctxChar.drawImage(charDown, 0 * size, 0 * size, size, size);
+    ctx.drawImage(finish, endX * size + 2.5, endY * size + 2.5, size - 5, size - 5);
+    ctxChar.drawImage(charDown, startX * size, startY * size, size, size);
     moveY = 0; // reset values, lokacija playerja
     moveX = 0;
 }
 
 // RIŠI BRIŠI
 solveBtn.addEventListener('click', () => {
+    risiBrisi();
+});
+function risiBrisi() {
     if (risi) { // ce je boolean risi true bo narisalo pot, v primeru da ni, jo izbriše
         if (isAnimating === false) {
             let visited = Array.from({ length: rows }, () => Array(cols).fill(false)); // ustvari 2d tabelo, ki preverja ce je celica bila obiskana
             path = [];
-            solveMaze(0, 0, visited);
+            solveMaze(startX, startY, visited);  // kje se zacne resevanje
             drawSolution();
             solveBtn.textContent = "Clear";
             risi = false;
@@ -186,7 +213,7 @@ solveBtn.addEventListener('click', () => {
         playBtn.disabled = false;
         generateBtn.disabled = false;
     }
-});
+}
 
 speedBtn.addEventListener("change", function () {
     speed = parseInt(speedBtn.value, 10);

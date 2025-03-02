@@ -123,9 +123,12 @@ function moveCharacter() {
 }
 
 function moveAnimation(targetX, targetY, callback) { // animacija premika characterja od trenutne do nove pozicije
-    if (targetX === cols - 1 && targetY === rows - 1) { // ce smo prisli na konec labirinta, ustavimo igro
+    if (targetX === endX && targetY === endY) { // ce smo prisli na konec labirinta, ustavimo igro
         gameStart = false;
-        swal("Finish!", "You have escaped the maze!", "success").then(gameToggle); // koncno sporocilo, ki nas obvesca da smo prisli do konca
+        charStance = charDown;
+        ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
+        ctxChar.drawImage(charStance, targetX * size, targetY * size, size, size);
+        swal("Finish!", "You have escaped the maze!", "success").then(gameToggle); // koncno sporocilo, ki nas obvesca da smo prisli do konca, po temu se izvede then(), ki nas da na zacetek in pocisti canvas
     }
 
     let newX = moveX; // na zacetku se shrani trenutna pozicija characterja, potem se bo pristevala nova pozicija po majhnih delckih (frames)
@@ -163,8 +166,8 @@ function drawCharacter() {
 }
 
 function gameToggle() {
-    moveY = 0; // resetira kordinate playerja, po in pred igro
-    moveX = 0;
+    moveY = startY; // resetira kordinate playerja, po in pred igro
+    moveX = startX;
 
     if (playButton) { // Play button
         gameStart = true;
