@@ -1,10 +1,12 @@
 # Maze Generator & Solver
+
 ## About
 This is my 3rd project of the school year.
 
 I've made a maze generator & solver using canvas in HTML5.
 
 The maze is Sonic themed, where you can play & solve the maze as a Sonic the Hedgehog.
+
 
 ## Playable game
 The maze is playable by clicking on a button "play" the game will start.
@@ -18,6 +20,10 @@ It offers a smooth movement, where you can hold down the WASD or arrow keys and 
 The character contains 14 pictures of all the directions he faces.
 
 This way it truly looks like the character is running around the maze.
+
+Picture belows shows the character running which is controlled by a player:
+
+![image](https://github.com/user-attachments/assets/db8589cf-816c-4c3d-8353-a235cc0ed1f3)
 
 
 ## Maze Generator
