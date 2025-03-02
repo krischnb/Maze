@@ -86,7 +86,7 @@ function createGrid() {
     }
 }
 
-function randomStartEnd() { // funckija, ki nakljucno generira zacno in koncno pozicijo. (nastopajo le v kotih labirinta)
+function randomStartEnd() { // funckija, ki nakljucno generira zacetno in koncno pozicijo. (nastopajo le v kotih labirinta)
     random = Math.floor(Math.random() * 4) + 1; // od 1 do 4
     switch (random) {
         case 1:
