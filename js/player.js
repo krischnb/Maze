@@ -128,7 +128,34 @@ function moveAnimation(targetX, targetY, callback) { // animacija premika charac
         charStance = charDown;
         ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
         ctxChar.drawImage(charStance, targetX * size, targetY * size, size, size);
-        swal("Finish!", "You have escaped the maze!", "success").then(gameToggle); // koncno sporocilo, ki nas obvesca da smo prisli do konca, po temu se izvede then(), ki nas da na zacetek in pocisti canvas
+
+        swal({
+            title: "Congrats!",
+            text: "You have found the solution!",
+            icon: "success",
+            buttons: {
+                confirm: {
+                    text: "New maze",
+                    value: true, // boolean restart pridobi vrednost true
+                    visible: true,
+                    closeModal: true 
+                },
+                cancel: {
+                    text: "Restart",
+                    value: false,
+                    visible: true,
+                    closeModal: true
+                }
+            }
+        }).then((restart) => {
+            if (restart) { // ce kliknemo na new maze
+                genMaze();
+                gameToggle();
+            }
+            else{
+                gameToggle();
+            }
+        });
     }
 
     let newX = moveX; // na zacetku se shrani trenutna pozicija characterja, potem se bo pristevala nova pozicija po majhnih delckih (frames)

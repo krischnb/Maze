@@ -137,12 +137,12 @@ function drawSolution() {
             isAnimating = false;
 
             swal({
-                title: "Success",
+                title: "Success!",
                 text: "The solution path has been found!",
                 icon: "success",
                 buttons: {
                     confirm: {
-                        text: "Clear",
+                        text: "Clear path",
                         value: true, // boolean restart pridobi vrednost true
                         visible: true,
                         closeModal: true 
