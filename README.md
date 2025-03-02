@@ -4,7 +4,7 @@ This is my 3rd project of the school year.
 
 I've made a maze generator & solver using canvas in HTML5.
 
-The maze is Sonic themed, where you can solve the maze as a Sonic the Hedgehog.
+The maze is Sonic themed, where you can play & solve the maze as a Sonic the Hedgehog.
 
 ## Playable game
 The maze can also be a game, by clicking on a button "play" you can solve the maze by playing as a Sonic the Hedgehog.
