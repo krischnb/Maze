@@ -34,6 +34,25 @@ function moveCharacter() {
 
     charDirection = charDown; // smer, v katero je character obrnjen
 
+    // vprasanje ce bom obdrzal to kodo
+    // koda, ki spreminja smeri characterja glede na knof, kdr je obtican v med zidami
+    if ((activeKeys.has("W") || activeKeys.has("ARROWUP")) && cell.top) {
+        ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
+        ctxChar.drawImage(charUp, moveX * size, moveY * size, size, size);
+
+    } else if ((activeKeys.has("S") || activeKeys.has("ARROWDOWN")) && cell.bottom) {
+        ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
+        ctxChar.drawImage(charDown, moveX * size, moveY * size, size, size);
+
+    } else if ((activeKeys.has("A") || activeKeys.has("ARROWLEFT")) && cell.left) {
+        ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
+        ctxChar.drawImage(charLeft, moveX * size, moveY * size, size, size);
+
+    } else if ((activeKeys.has("D") || activeKeys.has("ARROWRIGHT")) && cell.right) {
+        ctxChar.clearRect(0, 0, canvasChar.width, canvasChar.height);
+        ctxChar.drawImage(charRight, moveX * size, moveY * size, size, size);
+
+    }
 
     if ((activeKeys.has("W") || activeKeys.has("ARROWUP")) && !cell.top) { // gor, zazna klik na WASD ali puscice, ce odzgoraj ni zida, se lahko premaknemo navzgor, cell.top predstavlja zid nad trenutne celico
         targetY--; // nova pozicija se odsteje za ena od trenutne, eno celico navzgor se bomo premaknili
@@ -163,7 +182,7 @@ function moveAnimation(targetX, targetY, callback) { // animacija premika charac
 
     let newX = moveX; // na zacetku se shrani trenutna pozicija characterja, potem se bo pristevala nova pozicija po majhnih delckih (frames)
     let newY = moveY;
-    let frames = 10; // frames odlocajo, v kolikih korakih, bo bila izvedena animacija (npr. 10 frames, 10 delckov animacije premika na eno celico)
+    let frames = 15; // frames odlocajo, v kolikih korakih, bo bila izvedena animacija (npr. 10 frames, 10 delckov animacije premika na eno celico)
     let stepX = (targetX - moveX) / frames; // izracun, koliko se bomo premaknili na en korak, en frame, ce bo 60 framov, se bo animacija izvajala 1 sekundo za premik ene celice
     let stepY = (targetY - moveY) / frames; // nova pozicija se odsteje od trenutne, da izvemo kam se premaknemo, potem to delimo z frames - da postavimo potek animacije na korake
     let i = 0;
