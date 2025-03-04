@@ -163,7 +163,7 @@ function moveAnimation(targetX, targetY, callback) { // animacija premika charac
 
     let newX = moveX; // na zacetku se shrani trenutna pozicija characterja, potem se bo pristevala nova pozicija po majhnih delckih (frames)
     let newY = moveY;
-    let frames = 12; // frames odlocajo, v kolikih korakih, bo bila izvedena animacija (npr. 10 frames, 10 delckov animacije premika na eno celico)
+    let frames = 10; // frames odlocajo, v kolikih korakih, bo bila izvedena animacija (npr. 10 frames, 10 delckov animacije premika na eno celico)
     let stepX = (targetX - moveX) / frames; // izracun, koliko se bomo premaknili na en korak, en frame, ce bo 60 framov, se bo animacija izvajala 1 sekundo za premik ene celice
     let stepY = (targetY - moveY) / frames; // nova pozicija se odsteje od trenutne, da izvemo kam se premaknemo, potem to delimo z frames - da postavimo potek animacije na korake
     let i = 0;
