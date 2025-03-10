@@ -67,6 +67,12 @@ let moveY;
 let gameStart = false;
 let playButton = true;
 
+
+//variables from dragObject.js
+let offsetX = 0;
+let offsetY = 0;
+
+
 /**
  * ustvari grid - mrežo: stevilo celic = vrstice*stolpci, vsaka celica ima vse 4 zide
  */

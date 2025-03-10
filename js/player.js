@@ -5,6 +5,71 @@ let charStance;
 let frameSwitch = false;
 let leftIndex = 1;
 let rightIndex = 1;
+let stepCount = 0;
+
+let isHoldingKey = false;
+
+
+// Kontrole, brez tipkovnice. Uporaba miske. Uporabno ce si na telefonu
+document.querySelector(".upKey").addEventListener("mousedown", function() {
+    if (!isHoldingKey) { 
+        isHoldingKey = true;
+        const keydownEvent = new KeyboardEvent("keydown", { key: "w", code: "KeyW" });
+        document.dispatchEvent(keydownEvent);
+    }
+});
+document.querySelector(".upKey").addEventListener("mouseup", function() {
+    if (isHoldingKey) { 
+        isHoldingKey = false;
+        const keyupEvent = new KeyboardEvent("keyup", { key: "w", code: "KeyW" });
+        document.dispatchEvent(keyupEvent);
+    }
+});
+
+document.querySelector(".downKey").addEventListener("mousedown", function() {
+    if (!isHoldingKey) { 
+        isHoldingKey = true;
+        const keydownEvent = new KeyboardEvent("keydown", { key: "s", code: "KeyS" });
+        document.dispatchEvent(keydownEvent);
+    }
+});
+document.querySelector(".downKey").addEventListener("mouseup", function() {
+    if (isHoldingKey) { 
+        isHoldingKey = false;
+        const keyupEvent = new KeyboardEvent("keyup", { key: "s", code: "KeyS" });
+        document.dispatchEvent(keyupEvent);
+    }
+});
+
+document.querySelector(".leftKey").addEventListener("mousedown", function() {
+    if (!isHoldingKey) { 
+        isHoldingKey = true;
+        const keydownEvent = new KeyboardEvent("keydown", { key: "a", code: "KeyA" });
+        document.dispatchEvent(keydownEvent);
+    }
+});
+document.querySelector(".leftKey").addEventListener("mouseup", function() {
+    if (isHoldingKey) { 
+        isHoldingKey = false;
+        const keyupEvent = new KeyboardEvent("keyup", { key: "a", code: "KeyA" });
+        document.dispatchEvent(keyupEvent);
+    }
+});
+
+document.querySelector(".rightKey").addEventListener("mousedown", function() {
+    if (!isHoldingKey) { 
+        isHoldingKey = true;
+        const keydownEvent = new KeyboardEvent("keydown", { key: "d", code: "KeyD" });
+        document.dispatchEvent(keydownEvent);
+    }
+});
+document.querySelector(".rightKey").addEventListener("mouseup", function() {
+    if (isHoldingKey) { 
+        isHoldingKey = false;
+        const keyupEvent = new KeyboardEvent("keyup", { key: "d", code: "KeyD" });
+        document.dispatchEvent(keyupEvent);
+    }
+});
 
 
 document.addEventListener("keydown", function (event) { // zazna ko kliknemo na tipko
@@ -67,6 +132,8 @@ function moveCharacter() {
             charDirection = charUp2;
             frameSwitch = true;
         }
+        stepCount++;
+
     } else if ((activeKeys.has("S") || activeKeys.has("ARROWDOWN")) && !cell.bottom) { // dol
         targetY++;
 
@@ -80,10 +147,14 @@ function moveCharacter() {
             charDirection = charDown2;
             frameSwitch = true;
         }
+        stepCount++;
+
     } else if ((activeKeys.has("A") || activeKeys.has("ARROWLEFT")) && !cell.left) { // levo
         targetX--;
 
         charStance = charLeft;
+
+        stepCount++;
 
         if (leftIndex === 4) { // kadar gremo skozi vse 3 slike, se index resetira
             leftIndex = 1;
@@ -107,6 +178,8 @@ function moveCharacter() {
         targetX++;
 
         charStance = charRight;
+
+        stepCount++;
 
         if (rightIndex === 4) {
             rightIndex = 1;
@@ -149,8 +222,8 @@ function moveAnimation(targetX, targetY, callback) { // animacija premika charac
         ctxChar.drawImage(charStance, targetX * size, targetY * size, size, size);
 
         swal({
-            title: "Congrats!",
-            text: "You have found the solution!",
+            title: "Congratulations!",
+            text: "You have successfully solved the maze!\nTotal moves: "+stepCount,
             icon: "success",
             buttons: {
                 confirm: {
@@ -172,6 +245,7 @@ function moveAnimation(targetX, targetY, callback) { // animacija premika charac
                 moveY = startY; // resetira kordinate playerja, po in pred igro
                 moveX = startX;
                 gameStart=true;
+                stepCount = 0;
                 
             }
             else{
@@ -182,7 +256,7 @@ function moveAnimation(targetX, targetY, callback) { // animacija premika charac
 
     let newX = moveX; // na zacetku se shrani trenutna pozicija characterja, potem se bo pristevala nova pozicija po majhnih delckih (frames)
     let newY = moveY;
-    let frames = 15; // frames odlocajo, v kolikih korakih, bo bila izvedena animacija (npr. 10 frames, 10 delckov animacije premika na eno celico)
+    let frames = 18; // frames odlocajo, v kolikih korakih, bo bila izvedena animacija (npr. 10 frames, 10 delckov animacije premika na eno celico)
     let stepX = (targetX - moveX) / frames; // izracun, koliko se bomo premaknili na en korak, en frame, ce bo 60 framov, se bo animacija izvajala 1 sekundo za premik ene celice
     let stepY = (targetY - moveY) / frames; // nova pozicija se odsteje od trenutne, da izvemo kam se premaknemo, potem to delimo z frames - da postavimo potek animacije na korake
     let i = 0;
@@ -217,7 +291,7 @@ function drawCharacter() {
 function gameToggle() {
     moveY = startY; // resetira kordinate playerja, po in pred igro
     moveX = startX;
-
+    stepCount = 0;
     if (playButton) { // Play button
         gameStart = true;
         playButton = false;

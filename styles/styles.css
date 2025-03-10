@@ -15,6 +15,7 @@ html, body{
     align-items: center;
     flex-direction: column;
     z-index: 2; 
+    flex-direction: column;
 }
 .backImg{
     height:100vh;
@@ -36,13 +37,13 @@ html, body{
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
-
 }
 .canvasCont{
-    position: relative;      
-}
-#mazeCanvas, #canvasChar, #tileBackground{
+    position: relative;  
     height:700px;
+}
+#mazeCanvas, #canvasChar{
+    height: inherit;
 }
 #mazeCanvas {
     border: 1px solid black;
@@ -56,27 +57,30 @@ html, body{
 .buttonCont{
     display:flex;
     gap: 20px;
-    margin-top: 10px;
+    border-radius: 16px;
+    padding: 15px;
+    position: relative;
 }
 .buttonCont button, #gridSize, #speedSolve{
-    width:150px;
-    height:45px;
+    width: 150px;
+    padding: 12px;
     font-size: 20px;
-    background-color: rgb(12, 128, 12);
     color: white;
-    border:none;
     border-radius: 10px;
     user-select: none;
     transition-duration: 0.2s;
+    border:none;
+    background-color: rgba(0, 128, 0);
+    background-image: linear-gradient(to top, rgba(21, 36, 65, 0.7), transparent);
 }
 .buttonCont button:hover, #gridSize:hover, #speedSolve:hover{
-    background-color: rgb(12, 75, 12);
     transition-duration: 0.2s;
+    background-color: rgb(24, 97, 24);
 }
 .buttonCont button:disabled, #gridSize:disabled, #speedSolve:disabled{
     background-color: dimgray !important;
     cursor: auto !important;
-    opacity: 0.8 !important;
+    opacity: 0.6 !important;
     transition-duration: 0.2s;
 }
 #gridSize, #speedSolve{
@@ -89,6 +93,70 @@ html, body{
     background-color: rgb(110, 110, 110);
     color: rgb(254, 255, 255);
 }
+
+/* Navigation buttons */
+.navigationBtn{
+    display:none;
+    flex-direction: column;
+    padding: 10px;
+    border: 2px solid;
+    gap: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    position: absolute;
+    z-index: 90;
+    left: 0;
+    bottom: 0;
+    margin: 100px;
+    height: 250px;
+    justify-content: center;
+    align-items: center;
+}
+.pin{
+    position: absolute;
+    top:0;
+    right:0;
+    padding: 10px;
+    transition-duration: 0.2s;
+}
+.pin:hover{
+    border-radius:100%;
+    background-color: lightgray;
+    transition-duration: 0.2s;
+}
+.pinned{
+    fill: green;
+}
+.visible{
+    display:flex;
+}
+.navigationRow{
+    display: flex; flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+}
+.navigationBtn svg{
+    width: 40px;
+}
+.navigationRow div{ /* direction keys */
+    border: 3px solid black;
+    border-radius: 16px;
+    padding: 20px;
+    background-color: green;
+    cursor: pointer;
+}
+.leftKey{
+    transform: rotate(270deg);
+}
+.downKey{
+    transform: rotate(180deg);
+}
+.rightKey{
+    transform: rotate(90deg);
+}
+
+
+/* Sweet alert styles */
 .swal-title{
     font-size: 30px;
     font-family: sans-serif;
@@ -109,4 +177,17 @@ html, body{
 }
 .swal-button--confirm:hover{
     background-color: rgb(12, 75, 12) !important;
+}
+.swal-content__div{
+    font-size: 18px;
+    font-family: sans-serif;
+    line-height: 24px;
+    color: gray;
+}
+.github-link{
+    text-decoration: none;
+    color: green;
+}
+.github-link:hover{
+    text-decoration: underline;
 }

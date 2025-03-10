@@ -1,0 +1,121 @@
+@media (max-height:900px) {
+    .canvasCont{
+        height: 650px;
+    }
+}
+@media (max-height:750px) {
+    .canvasCont{
+        height: 600px;
+    }
+    .buttonCont button, #gridSize, #speedSolve{
+        width: 120px;
+        font-size: 14px;
+    }    
+    .naslov{
+        height: 80px;
+        width: 400px;
+    }
+}
+@media (max-height:650px) {
+    .canvasCont{
+        height: 500px;
+    }
+    .buttonCont button, #gridSize, #speedSolve{
+        width: 100px;
+        font-size: 11px;
+    }
+    .naslov{
+        height: 90px;
+        width: 300px;
+    }
+    .modal{
+        height: 100%;
+        width: 100%;
+        border-radius: 0;
+    }
+}
+@media (max-height:550px) {
+    .canvasCont{
+        height: 400px;
+    }
+    .buttonCont button, #gridSize, #speedSolve{
+        width: 90px;
+        font-size: 10px;
+        padding: 10px;
+    }
+    .naslov{
+        height: 90px;
+        width: 300px;
+    }
+    .virtualBtn{
+        margin-top: 60px;
+        height: 80px;
+        
+    }
+}
+@media (max-height:480px) {
+    .canvasCont{
+        height: 350px;
+    }
+    .buttonCont button, #gridSize, #speedSolve{
+        width:80px;
+        font-size: 10px;
+        padding: 6px;
+    }
+    .naslov{
+        height: 90px;
+        width: 300px;
+    }
+    .virtualBtn{
+        margin-top: 60px;
+        height: 80px;
+    }    
+    .buttonCont{
+        gap: 15px;
+        padding: 10px;
+    }
+}
+@media (max-height:380px) {
+    .canvasCont{
+        height: 280px;
+    }
+    .buttonCont button, #gridSize, #speedSolve{
+        width: 70px;
+        font-size: 8px;
+        padding: 5px;
+    }
+    .naslov{
+        height: 90px;
+        width: 300px;
+    }
+    .virtualBtn{
+        margin-top: 130px;
+        height: 80px;
+    }
+    .buttonCont{
+        gap: 10px;
+        padding: 5px;
+    }
+}
+@media (max-width:450px) {
+    .canvasCont{
+        height: 700px !important;
+    }
+    .buttonCont button, #gridSize, #speedSolve{
+        width: 120px;
+        font-size: 15px;
+        padding: 15px;
+    }
+    .naslov{
+        height: 100px;
+        width: 450px;
+    }
+    .virtualBtn{
+        margin-top: 130px;
+        height: 80px;
+    }
+    .buttonCont{
+        gap: 15px;
+        padding: 10px;
+    }
+}
